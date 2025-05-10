@@ -66,12 +66,17 @@ namespace Tutorial8.Controllers
                 return Conflict("Client already registered for the trip!");
             }
 
+            if (await _clientsService.IsTripNotFull(tripId) == false)
+            {
+                return Conflict("Trip is full!");
+            }
+
             if (await _clientsService.RegisterClientTrip(id, tripId))
             {
                 return Ok("Client registered for the trip!");
             }
             
-            return BadRequest("Failed to register client - the trip is probably full");
+            return BadRequest("Failed to register client");
         }
 
         // Ten endpoint usuwa rejestrację klienta na wycieczkę

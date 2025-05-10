@@ -65,11 +65,6 @@ public class ClientsService : IClientsService
 
     public async Task<bool> RegisterClientTrip(int idClient, int idTrip) // PUT /api/clients/{id}/trips{tripId}
     {
-        if (await IsTripNotFull(idTrip) == false)
-        {
-            return false;
-        }
-        
         // Zapytanie SQL dodające wiersz w tabeli Client_Trip, aby zarejestrować klienta na wycieczkę
         string command = @"INSERT INTO Client_Trip (IdClient, IdTrip, RegisteredAt, PaymentDate)
                           VALUES (@IdClient, @IdTrip, @RegisteredAt, NULL)";
@@ -88,7 +83,7 @@ public class ClientsService : IClientsService
         }
     }
 
-    private async Task<bool> IsTripNotFull(int idTrip)
+    public async Task<bool> IsTripNotFull(int idTrip)
     {
         // Zapytanie sql znajdujące liczbę osób zarejestrowanych na konkretną wycieczkę i max. liczbę uczestników:
         string command = @"SELECT Trip.MaxPeople, COUNT(Client_Trip.IdClient) AS Registered FROM Trip

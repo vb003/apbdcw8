@@ -11,4 +11,5 @@ public interface IClientsService
     Task<bool> DoesClientExist(int idClient);
     Task<bool> DoesTripExist(int idTrip);
     Task<bool> DoesRegistrationExist(int idClient, int idTrip);
+    Task<bool> IsTripNotFull(int idTrip);
 }
